@@ -1,0 +1,14 @@
+# env
+.env
+
+# sqlite
+*.db
+*.sqlite
+*.sqlite3
+
+# postgres dump
+*.sql
+
+# AGENTS
+AGENTS.md
+templates/AGENTS.md
