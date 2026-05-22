@@ -1,9 +1,11 @@
 package config
 
 import (
+	"fmt"
 	"log"
+	"os"
 
-	"sistem_informasi_klinik/models"
+	"github.com/joho/godotenv"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -12,8 +14,20 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
+	err := godotenv.Load()
 
-	dsn := "host=localhost user=postgres password=walrus008 dbname=klinik port=5432 sslmode=disable"
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_PORT"),
+	)
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -22,8 +36,6 @@ func ConnectDB() {
 	}
 
 	DB = database
-
-	DB.AutoMigrate(&models.User{})
 
 	log.Println("Database Connected")
 }
