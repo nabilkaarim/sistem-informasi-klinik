@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
-	"sistem_informasi_klinik/config"
-	"sistem_informasi_klinik/models"
-	"sistem_informasi_klinik/helpers"
+	"sistem_informasi_klinik/internal/config"
+	"sistem_informasi_klinik/internal/models"
+	"sistem_informasi_klinik/internal/helpers"
 
 	"github.com/gin-gonic/gin"
 )

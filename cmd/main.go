@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"sistem_informasi_klinik/routes"
-	"sistem_informasi_klinik/config"
+	"sistem_informasi_klinik/internal/routes"
+	"sistem_informasi_klinik/internal/config"
 
 )
 

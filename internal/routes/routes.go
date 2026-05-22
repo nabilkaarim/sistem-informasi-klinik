@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"sistem_informasi_klinik/controllers"
-	"sistem_informasi_klinik/middleware"
+	"sistem_informasi_klinik/internal/controllers"
+	"sistem_informasi_klinik/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
