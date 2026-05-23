@@ -7,6 +7,8 @@ import (
 
 	"github.com/joho/godotenv"
 
+	"sistem_informasi_klinik/internal/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -32,10 +34,18 @@ func ConnectDB() {
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatal("Database connection failed")
+		log.Fatalf("Database connection failed: %v", err)
 	}
 
 	DB = database
 
-	log.Println("Database Connected")
+	// Auto migrate models
+	if err = DB.AutoMigrate(
+		&models.User{},
+		&models.Appointment{},
+	); err != nil {
+		log.Fatalf("AutoMigrate failed: %v", err)
+	}
+
+	log.Println("Database Connected and migrated")
 }

@@ -16,6 +16,16 @@ func SetupRoutes(r *gin.Engine) {
 		protected := api.Group("/")
 		protected.Use(middleware.AuthMiddleware())
 		{
+			protected.POST("/appointments", controllers.CreateAppointment)
+			protected.GET("/appointments", controllers.GetAppointments)
+			protected.GET("/appointments/:id", controllers.GetAppointment)
+			protected.PUT("/appointments/:id", controllers.UpdateAppointment)
+			protected.DELETE(
+				"/appointments/:id",
+				middleware.RoleMiddleware("admin"),
+				controllers.DeleteAppointment,
+			)
+
 			protected.GET("/users", controllers.GetUsers)
 
 			protected.GET("/users/:id", controllers.GetUser)
