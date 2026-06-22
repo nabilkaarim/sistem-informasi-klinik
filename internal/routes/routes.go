@@ -13,6 +13,10 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		api.POST("/login", controllers.Login)
 
+		api.GET("/users/:id", controllers.GetUser)
+
+		api.POST("/users", controllers.CreateUser)
+
 		protected := api.Group("/")
 		protected.Use(middleware.AuthMiddleware())
 		{
@@ -27,10 +31,6 @@ func SetupRoutes(r *gin.Engine) {
 			)
 
 			protected.GET("/users", controllers.GetUsers)
-
-			protected.GET("/users/:id", controllers.GetUser)
-
-			protected.POST("/users", controllers.CreateUser)
 
 			protected.PUT("/users/:id", controllers.UpdateUser)
 
