@@ -37,8 +37,8 @@ func Login(c *gin.Context) {
 	}
 
 	err := bcrypt.CompareHashAndPassword(
-	[]byte(user.Password),
-	[]byte(input.Password),
+		[]byte(user.Password),
+		[]byte(input.Password),
 	)
 
 	if err != nil {
@@ -48,7 +48,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := helpers.GenerateToken(user.ID, user.Role)
+	role := helpers.ResolveRole(input.Email, user.Role)
+
+	token, err := helpers.GenerateToken(user.ID, role)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

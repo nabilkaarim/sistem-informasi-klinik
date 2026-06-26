@@ -43,6 +43,11 @@ func ConnectDB() {
 	if err = DB.AutoMigrate(
 		&models.User{},
 		&models.Appointment{},
+		&models.Patient{},
+		&models.Doctor{},
+		&models.Staff{},
+		&models.MedicalRecord{},
+		&models.Transaction{},
 	); err != nil {
 		log.Fatalf("AutoMigrate failed: %v", err)
 	}

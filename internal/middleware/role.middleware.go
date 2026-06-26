@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func RoleMiddleware(role string) gin.HandlerFunc {
+func RoleMiddleware(roles ...string) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
@@ -21,9 +21,17 @@ func RoleMiddleware(role string) gin.HandlerFunc {
 			return
 		}
 
-		claims := user.(jwt.MapClaims)
+		claims, ok := user.(jwt.MapClaims)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "invalid token claims",
+			})
+			c.Abort()
+			return
+		}
 
-		if claims["role"] != role {
+		roleValue, ok := claims["role"].(string)
+		if !ok {
 			c.JSON(http.StatusForbidden, gin.H{
 				"error": "forbidden",
 			})
@@ -31,6 +39,16 @@ func RoleMiddleware(role string) gin.HandlerFunc {
 			return
 		}
 
-		c.Next()
+		for _, allowed := range roles {
+			if roleValue == allowed {
+				c.Next()
+				return
+			}
+		}
+
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "forbidden",
+		})
+		c.Abort()
 	}
 }
